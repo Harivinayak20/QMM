@@ -1,0 +1,92 @@
+---
+title: "QMM DEA 8"
+author: "HARI VINAYAK"
+date: "2023-11-03"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# summary
+
+*Efficiency Scores*:
+- Efficiency scores, such as "1.0000" or "0.4818," are critical indicators of how effectively data centers are converting their inputs into desired outputs.
+- A score of "1.0000" suggests that a data center is operating at its full potential, which is an ideal state.
+- Scores less than "1.0000" imply that there is room for improvement. For instance, the fourth data center has a score of "0.4818," indicating that it's operating at less than half of its possible efficiency.
+
+*Peer Analysis*:
+- The "peer1," "peer2," and "peer3" columns identify which other data centers are considered peers to the facility in question. 
+- "NA" means that a peer isn't identified for that specific data center, which can be useful for understanding that some data centers might be more unique or less comparable to others.
+- Data center managers can use this peer information to assess where their facility stands in comparison to others and learn from the more efficient peers.
+
+*Relative Weights*:
+- The "L1," "L2," "L5," "L7," "L10," "L13," and "L15" values indicate the relative influence or weight that each peer has on the efficiency of the target data center.
+- Weights close to 1.0 suggest a strong influence, while lower weights indicate a more moderate effect.
+- For instance, a weight of "1.0000" in "L1" means that the corresponding peer significantly impacts the efficiency of the target data center.
+
+In summary, this output provides a comprehensive assessment of data center efficiency. Efficiency scores highlight how effectively each data center is operating. Peer analysis helps data center managers identify benchmarks and learn from more efficient peers, and the relative weights provide insights into which peers have the most significant impact on efficiency. This information is invaluable for decision-making to optimize energy consumption and performance within data centers
+
+
+## summary segment 2
+Energy Policy	Amount/Percentage of Improvement Required
+
+
+3 Gamma Omega High 0.09%          
+4 Always Mono. Low 51.82%          
+6 Load Omega Low   51.28%         
+8 Gamma Mono. High  1.74%       
+9 Random Mesos High 4.22%        
+11 ExponentialOmega High 1.94%   
+12 Margin Omega Low  52.46%        
+14 Gamma Mono. High  0.56%       
+16 Gamma Omega High  0.3%       
+17 Gamma Mesos Low   47.1%       
+18 Random Omega Low  52.17%       
+The amount/percentage of improvement using the peers energy policies is found out using the lambda function with Constant Return to scale (CRS), which is the biggest umbrella. This is stored in the 'CRS_Weights' variable.
+
+
+```{r}
+
+
+
+x <- matrix(c(1000, 1000, 1000, 1000, 1000, 1000, 5000, 5000, 5000, 5000, 5000, 5000, 10000, 10000, 10000, 10000, 10000, 10000,37166,13361,14252,36404,19671,32407,6981,9877,33589,8578,11863,15452,9680,11388,18150,18409,29707,40772), ncol = 2)
+y <- matrix(c(104.42, 104.26, 104.17, 49.25, 49.63, 49.34, 99.96, 99.96, 100.03, 100.26, 100.26, 46.7, 101.56, 101.56, 101.63, 101.63, 45.83, 46.09, 49.01, 49.65, 49.6, 23.92, 24.65, 24.19, 237.09, 235.92, 234.9, 239.13, 236.95, 115.82, 481.36, 479.36, 486.11, 484.69, 228.31, 233.5, 90.1, 1093, 0.1, 78.3, 1188.7, 1.1, 126.2, 129.8, 1122.6, 0.7, 1, 0.5, 325.2, 327.9, 2.6, 2.5, 1107.6, 3.8), ncol = 3)
+
+colnames(y) <- c("Computing Time(h)", "MWh Consumed", "Queue time(ms)")
+colnames(x) <- c("D.C size", "#Shutdowns")
+
+print(x) # Print the values of 'X'
+print(y) # Print the values of 'Y'
+
+# Assuming the matrices 'x' and 'y' have the same number of rows, you can cbind them
+Table <- cbind(x, y)
+row.names(Table) <- c("1 Always Monolithic High", "2 Margin Mesos High", "3 Gamma Omega High", "4 Always Mono. Low", "5 ExponentialMesos Low", "6 Load Omega Low", "7 Margin Mono. High", "8 Gamma Mono. High", "9 Random Mesos High", "10 Margin Omega High", "11 ExponentialOmega High", "12 Margin Omega Low", "13 Margin Mono. High", "14 Gamma Mono. High", "15 Margin Omega High", "16 Gamma Omega High", "17 Gamma Mesos Low", "18 Random Omega Low")
+
+Table# Create matrices with the same number of rows
+
+
+```
+
+
+
+```{r}
+
+
+
+
+
+h=dea(x,y,RTS = "crs")
+h
+
+
+print(h)
+peers(h)    # determine the peers For facilities 5,6, the peer units are 1,2,4.
+d_Weights <- lambda(h)    #Determine the relative weights assigned to the peers. For facility 4, the weights are 0.20, 0.08, and 0.54. The facility 6 weights are 0.34, 0.39, and 0.13.
+
+d_Weights
+
+
+
+```
