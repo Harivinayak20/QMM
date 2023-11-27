@@ -1,0 +1,48 @@
+---
+title: "QMM GP"
+author: "HARI VINAYAK"
+date: "2023-11-26"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##summary
+
+1. **Production Optimization:**
+   - We aimed to maximize production using variables (X1, X2, X3), but the result shows "0" for X1 and X2. This means we can't make 20 units of Product 1 and 15 units of Product 2. Now, our focus is on producing only 15 units of Product 3, which brings in the most revenue.
+
+2. **Workforce Management:**
+   - Despite targeting a workforce of 50 hundred employees, we exceeded it by 25 hundred employees (ytp), leading to penalties for surpassing employment limits.
+
+3. **Financial Outlook:**
+   - Looking ahead, both y2p and y2m are "0," indicating a stable financial forecast for the next year. There's no expected increase or decrease compared to the current fiscal year.
+
+4. **Objective Function Result:**
+   - The bottom line: $225 million. This number summarizes the financial impact of our production and workforce decisions.
+
+
+```{r}
+library(lpSolveAPI)
+```
+
+
+```{r}
+x <- read.lp("GP.lp")
+x                         
+```
+
+## Solve
+```{r}
+solve(x)
+get.objective(x)
+get.variables(x)
+get.constraints(x)
+```
+
+```{r}
+get.sensitivity.rhs(x)
+get.sensitivity.objex(x)
+```
